@@ -46,6 +46,7 @@ Los diagramas C4 desde el más concreto hasta el más detallado:
 
 ![alt text](C4-Componente.vpd.jpg "Diagrama de Componentes")
 
+esternocleidomastoideo
 
 
 

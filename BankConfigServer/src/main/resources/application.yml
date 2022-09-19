@@ -6,7 +6,7 @@ spring:
       server:
         git:
           default-label: main
-          uri: https://github.com/wpretell/Bank-MS.git
+          uri: https://github.com/sjhilmar/Bank-MS.git
           search-paths: config-data
   application:
     name: Bank-MS

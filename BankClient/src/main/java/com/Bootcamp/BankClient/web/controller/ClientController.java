@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @NoArgsConstructor
-@RequestMapping("/v2/client")
+@RequestMapping("/v3/client")
 @Slf4j
 public class ClientController {
 	
@@ -64,7 +64,7 @@ public class ClientController {
 	public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody Client client) throws Exception {
 		Mono<Client> response= clientService.update(id, client);
 		log.info("update" + "OK");
-		log.debug(id.toString() + "/" + client.toString());
+		log.debug(id + "/" + client.toString());
 		return new ResponseEntity<Object>(response, HttpStatus.OK);
 	}
 	@DeleteMapping({ "{id}" })

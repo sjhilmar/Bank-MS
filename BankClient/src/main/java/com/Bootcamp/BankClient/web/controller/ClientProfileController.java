@@ -91,7 +91,7 @@ public class ClientProfileController {
     public ResponseEntity<Object> update(  @PathVariable("id") String id, @RequestBody ClientProfile ClientProfile) throws Exception {
         Mono<ClientProfile> response = ClientProfileService.update(id, ClientProfile);
         log.info("update" + "OK");
-        log.debug(id.toString()+ "/" + ClientProfile.toString());
+        log.debug(id + "/" + ClientProfile.toString());
         return new ResponseEntity<> (response,HttpStatus.OK);
     }
 

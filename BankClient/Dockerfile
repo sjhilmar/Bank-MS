@@ -5,6 +5,6 @@ RUN mvn -f /home/app/pom.xml clean install -DskipTests
 FROM openjdk:11-jre-slim
 COPY --from=build /home/app/target/BankClient-0.0.1-SNAPSHOT.jar /usr/local/lib/bankclient.jar
 EXPOSE 8089
-ENTRYPOINT ["java","-jar","bankclient.jar"]
+ENTRYPOINT ["java","-jar","/usr/local/lib/bankclient.jar"]
 
 

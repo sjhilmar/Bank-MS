@@ -6,9 +6,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-//@ComponentScan(basePackages = "com.BootCamp.Client.*")
+//@ComponentScan(basePackages = "com.BootCamp.Client.service")
 //@EntityScan(basePackages = "com.BootCamp.Client.*")
-//@EnableJpaRepositories(basePackages = "com.BootCamp.Client.*")
+
+
 public class BankClientApplication {
 
 	public static void main(String[] args) {

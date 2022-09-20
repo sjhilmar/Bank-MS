@@ -1,15 +1,16 @@
 package com.Bootcamp.BankClient.repository;
 
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+
 import com.Bootcamp.BankClient.domain.Proxy;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-public interface ProxyRepository extends MongoRepository<Proxy, String> {
+public interface ProxyRepository extends ReactiveCrudRepository<Proxy, String> {
 
-    Optional<Proxy> findProxyByFullName(String fullName);
+    Mono<Proxy> findProxyByFullName(String fullName);
 
-    List<Proxy> findProxyByClientId(String clientId);
+    Flux<Proxy> findProxyByClientId(String clientId);
 
 }

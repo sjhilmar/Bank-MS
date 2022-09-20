@@ -1,70 +1,69 @@
 package com.Bootcamp.BankClient.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.Bootcamp.BankClient.domain.Proxy;
 import com.Bootcamp.BankClient.repository.ProxyRepository;
 import com.Bootcamp.BankClient.service.IProxyService;
-import com.Bootcamp.BankClient.service.mapper.ProxyMapper;
-import com.Bootcamp.BankClient.web.model.ProxyModel;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.NoArgsConstructor;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class ProxyService implements IProxyService {
+	
+	
 
-    private final ProxyRepository proxyRepository;
-    private final ProxyMapper proxyMapper;
+    private ProxyRepository proxyRepository;
+    
     @Override
-    public List<ProxyModel> findAll() throws Exception {
-        List<Proxy> proxies = proxyRepository.findAll();
-        return proxyMapper.proxyToProxyModels(proxies);
+    public Flux<Proxy> findAll() throws Exception {
+        return proxyRepository.findAll(); 
     }
 
     @Override
-    public ProxyModel findById(String id) throws Exception {
-        Optional<Proxy> proxy = proxyRepository.findById(id);
-        if(proxy.isPresent())	return proxyMapper.proxyToProxyModel(proxy.get());
-        else throw new Exception("No se encontraron datos");
+    public Mono<Proxy>  findById(String id) throws Exception {
+        return proxyRepository.findById(id).switchIfEmpty(Mono.error(RuntimeException::new));
     }
 
     @Override
-    public ProxyModel findByFullName(String fullName) throws Exception {
-        Optional<Proxy> proxy = proxyRepository.findProxyByFullName(fullName);
-        if(proxy.isPresent())	return proxyMapper.proxyToProxyModel(proxy.get());
-        else throw new Exception("No se encontraron datos");
+    public Mono<Proxy>  findByFullName(String fullName) throws Exception {
+    	return proxyRepository.findProxyByFullName(fullName);
+    	
+    	
+//        Optional<Proxy> proxy = proxyRepository.findProxyByFullName(fullName);
+//        if(proxy.isPresent())	return proxyMapper.proxyToProxyModel(proxy.get());
+//        else throw new Exception("No se encontraron datos");
     }
 
     @Override
-    public List<ProxyModel> findByClientId(String clientId) throws Exception {
-        List<Proxy> proxies = proxyRepository.findProxyByClientId(clientId);
-        return proxyMapper.proxyToProxyModels(proxies);
+    public Flux<Proxy> findByClientId(String clientId) throws Exception {
+        return proxyRepository.findProxyByClientId(clientId);
     }
 
     @Override
-    public ProxyModel create(ProxyModel proxyModel) throws Exception {
-        if (!proxyRepository.findProxyByFullName(proxyModel.getFullName()).isPresent()){
-            Proxy proxy = proxyRepository.save(proxyMapper.proxyModelToProxy(proxyModel));
-            return proxyMapper.proxyToProxyModel(proxy);
-        }
-        else throw new Exception("El apoderado ya existe");
+    public Mono<Proxy> create(Proxy proxyModel) throws Exception {
+    	return proxyRepository.findProxyByFullName(proxyModel.getFullName())
+    			.switchIfEmpty(proxyRepository.save(proxyModel));
+    	
+//        if (!proxyRepository.findProxyByFullName(proxyModel.getFullName()).isPresent()){
+//            Proxy proxy = proxyRepository.save(proxyMapper.proxyModelToProxy(proxyModel));
+//            return proxyMapper.proxyToProxyModel(proxy);
+//        }
+//        else throw new Exception("El apoderado ya existe");
     }
 
     @Override
-    public void update(String id, ProxyModel proxyModel) throws Exception {
-        Optional<Proxy> proxyOptional = proxyRepository.findById(id);
-        if(proxyOptional.isPresent()) {
-            Proxy proxyToUpdate = proxyOptional.get();
-            proxyMapper.update(proxyToUpdate, proxyModel);
-            proxyRepository.save(proxyToUpdate);
-        }
-        else throw new Exception("No se encontraron datos");
+    public Mono<Proxy> update(String id, Proxy proxyModel) throws Exception {
+        return proxyRepository.findById(id)
+        		.switchIfEmpty(Mono.error(RuntimeException::new))
+        		.flatMap(t -> proxyRepository.save(proxyModel) );
     }
 
     @Override
-    public void deleteById(String id) throws Exception {
-        proxyRepository.deleteById(id);
+    public Mono<Void> deleteById(String id) throws Exception {
+        return proxyRepository.deleteById(id);
     }
 }

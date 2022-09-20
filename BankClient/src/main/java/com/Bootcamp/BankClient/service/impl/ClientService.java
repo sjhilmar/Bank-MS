@@ -6,15 +6,15 @@ import com.Bootcamp.BankClient.domain.Client;
 import com.Bootcamp.BankClient.repository.ClientRepository;
 import com.Bootcamp.BankClient.service.IClientService;
 
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class ClientService implements IClientService {
 	
-	private final ClientRepository clientRepository;
+	private ClientRepository clientRepository;
 	
 	@Override
 	public Flux<Client> findAll() throws Exception {

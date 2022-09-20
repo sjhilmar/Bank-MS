@@ -28,7 +28,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class ClientProfileController {
 
-    private final IClientProfileService ClientProfileService;
+    private IClientProfileService ClientProfileService;
 
 
     /**

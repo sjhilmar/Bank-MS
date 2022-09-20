@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ClientProfileService implements IClientProfileService {
 
-	private final ClientProfileRepository clientProfileRepository;
+	private ClientProfileRepository clientProfileRepository;
 
 	@Override
 	public Flux<ClientProfile> findAll() throws Exception {

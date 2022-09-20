@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class ClientService implements IClientService {
+	
 	private final ClientRepository clientRepository;
 	
 	@Override

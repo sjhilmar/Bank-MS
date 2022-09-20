@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v2/clientProfile")
+@RequestMapping("/v3/clientProfile")
 @Slf4j
 public class ClientProfileController {
 

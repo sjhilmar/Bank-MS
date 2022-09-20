@@ -4,7 +4,7 @@ import com.Bootcamp.BankClient.domain.ClientProfile;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
+//@Component
 public interface IClientProfileService {
 
     Flux<ClientProfile> findAll() throws Exception;

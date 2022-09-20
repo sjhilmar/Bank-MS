@@ -5,7 +5,7 @@ server:
 spring:
  data:
    mongodb:
-       database: bankclients
+       database: bankclient
        uri: mongodb+srv://sa:root@javabootcamp.p1mwttm.mongodb.net/?retryWrites=true&w=majority
     
 eureka:

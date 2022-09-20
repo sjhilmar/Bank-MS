@@ -1,10 +1,12 @@
 package com.Bootcamp.BankClient.service;
 
+import org.springframework.stereotype.Component;
+
 import com.Bootcamp.BankClient.domain.Client;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
+@Component
 public interface IClientService {
 	Flux<Client> findAll() throws Exception;
 

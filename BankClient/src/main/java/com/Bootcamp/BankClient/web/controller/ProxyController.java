@@ -1,6 +1,6 @@
 package com.Bootcamp.BankClient.web.controller;
 
-import com.Bootcamp.BankClient.service.impl.IProxyService;
+import com.Bootcamp.BankClient.service.IProxyService;
 import com.Bootcamp.BankClient.web.model.ProxyModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

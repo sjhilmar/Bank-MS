@@ -1,13 +1,5 @@
 package com.Bootcamp.BankClient.web.controller;
 
-import java.util.List;
-
-import com.Bootcamp.BankClient.service.impl.IClientProfileService;
-import com.Bootcamp.BankClient.web.model.ClientProfileModel;
-import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Bootcamp.BankClient.domain.ClientProfile;
+import com.Bootcamp.BankClient.service.IClientProfileService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 
 
 @RestController
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ClientProfileController {
 
-    @Autowired
     private final IClientProfileService ClientProfileService;
 
 
@@ -39,7 +39,7 @@ public class ClientProfileController {
     @GetMapping()
     @Operation(summary = "Get list of ClientProfiles")
     public ResponseEntity<Object> getAll() throws Exception {
-        List<ClientProfileModel> response =  ClientProfileService.findAll();
+        Flux<ClientProfile> response =  ClientProfileService.findAll();
         log.info("getAll" + "OK");
         log.debug(response.toString());
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -53,10 +53,10 @@ public class ClientProfileController {
      * @throws Exception
      */
     @GetMapping(path = { "{id}" }, produces = { "application/json" })
-    public ResponseEntity<ClientProfileModel> getById(@PathVariable("id") String id) throws Exception{
-        ClientProfileModel response = ClientProfileService.findById(id);
+    public ResponseEntity<Object> getById(@PathVariable("id") String id) throws Exception{
+        Mono<ClientProfile>  response = ClientProfileService.findById(id);
         log.info("getById" + "OK");
-        log.debug(id.toString());
+        log.debug(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -67,11 +67,11 @@ public class ClientProfileController {
      * @throws Exception
      */
     @PostMapping(path = "/create")
-    public ResponseEntity<Object> create(@RequestBody ClientProfileModel clientProfileModel) throws Exception {
+    public ResponseEntity<Object> create(@RequestBody ClientProfile clientProfile) throws Exception {
         try{
-            ClientProfileModel response = ClientProfileService.create(clientProfileModel);
+            Mono<ClientProfile> response = ClientProfileService.create(clientProfile);
             log.info("create" + "OK");
-            log.debug(clientProfileModel.toString());
+            log.debug(clientProfile.toString());
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         catch (Exception e){
@@ -88,12 +88,11 @@ public class ClientProfileController {
      * @throws Exception
      */
     @PutMapping(path = { "{id}" }, produces = { "application/json" })
-    public void update(
-            @PathVariable("id") String id,
-            @RequestBody ClientProfileModel ClientProfileModel) throws Exception {
-        ClientProfileService.update(id, ClientProfileModel);
+    public ResponseEntity<Object> update(  @PathVariable("id") String id, @RequestBody ClientProfile ClientProfile) throws Exception {
+        Mono<ClientProfile> response = ClientProfileService.update(id, ClientProfile);
         log.info("update" + "OK");
-        log.debug(id.toString()+ "/" + ClientProfileModel.toString());
+        log.debug(id.toString()+ "/" + ClientProfile.toString());
+        return new ResponseEntity<> (response,HttpStatus.OK);
     }
 
     /**

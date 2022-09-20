@@ -1,4 +1,4 @@
-package com.Bootcamp.BankClient.service.impl;
+package com.Bootcamp.BankClient.service;
 
 import com.Bootcamp.BankClient.web.model.ProxyModel;
 

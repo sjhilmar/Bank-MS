@@ -1,17 +1,18 @@
 package com.Bootcamp.BankClient.service.mapper;
 
-import com.Bootcamp.BankClient.domain.ClientProfile;
-import com.Bootcamp.BankClient.web.model.ClientProfileModel;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import java.util.List;
+import com.Bootcamp.BankClient.domain.ClientProfile;
+import com.Bootcamp.BankClient.web.model.ClientProfileModel;
 
 @Mapper(componentModel = "spring")
 public interface ClientProfileMapper {
 
-    ClientProfile clientProfileModelToClientProfile (ClientProfileModel model);
+    ClientProfile clientProfileModelToClientProfile (ClientProfileModel  model);
 
     ClientProfileModel clientProfileToClientProfileModel (ClientProfile product);
 

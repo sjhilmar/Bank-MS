@@ -1,13 +1,13 @@
 package com.Bootcamp.BankClient.repository;
 
-import java.util.List;
-
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 import com.Bootcamp.BankClient.domain.Client;
 
-public interface ClientRepository  extends MongoRepository<Client, String> {
+import reactor.core.publisher.Flux;
 
-	List<Client> findByDocumentNumber(String documentNumber);
+public interface ClientRepository  extends ReactiveCrudRepository<Client, String> {
+
+	Flux<Client> findByDocumentNumber(String documentNumber);
 
 }

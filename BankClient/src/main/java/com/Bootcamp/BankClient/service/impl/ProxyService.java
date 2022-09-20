@@ -1,8 +1,8 @@
-package com.Bootcamp.BankClient.service;
+package com.Bootcamp.BankClient.service.impl;
 
 import com.Bootcamp.BankClient.domain.Proxy;
 import com.Bootcamp.BankClient.repository.ProxyRepository;
-import com.Bootcamp.BankClient.service.impl.IProxyService;
+import com.Bootcamp.BankClient.service.IProxyService;
 import com.Bootcamp.BankClient.service.mapper.ProxyMapper;
 import com.Bootcamp.BankClient.web.model.ProxyModel;
 import lombok.RequiredArgsConstructor;

@@ -27,7 +27,7 @@ import reactor.core.publisher.Mono;
 public class ProxyController {
 
     @Autowired
-    private final IProxyService proxyService;
+    private IProxyService proxyService;
 
     @GetMapping()
     // @Operation(summary = "Get List of Proxies")

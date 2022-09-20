@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.Bootcamp.BankClient.domain.Client;
 import com.Bootcamp.BankClient.service.IClientService;
 
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/v3/client")
+@NoArgsConstructor
+@RequestMapping("/v2/client")
 @Slf4j
 public class ClientController {
-
-	private final IClientService clientService;
+	
+	private IClientService clientService;
 	
 	@GetMapping()
 	public ResponseEntity<Object> getAll() throws Exception {
@@ -37,7 +37,7 @@ public class ClientController {
 	}
 	
 	@GetMapping(path = { "{id}" }, produces = { "application/json" })
-	public ResponseEntity<Object> getById(@PathVariable("id") String id) throws Exception {
+	public ResponseEntity<Object> findById(@PathVariable("id") String id) throws Exception {
 		Mono<Client> response = clientService.findById(id);
 		log.info("getById" + "OK");
 		log.debug(id);

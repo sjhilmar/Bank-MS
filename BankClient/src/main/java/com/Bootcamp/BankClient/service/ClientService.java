@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankClient.domain.Client;
 import com.Bootcamp.BankClient.repository.ClientRepository;
+import com.Bootcamp.BankClient.service.impl.IClientService;
 import com.Bootcamp.BankClient.service.mapper.ClientMapper;
 import com.Bootcamp.BankClient.web.model.ClientModel;
 

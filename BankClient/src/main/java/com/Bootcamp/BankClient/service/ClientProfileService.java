@@ -2,6 +2,7 @@ package com.Bootcamp.BankClient.service;
 
 import com.Bootcamp.BankClient.domain.ClientProfile;
 import com.Bootcamp.BankClient.repository.ClientProfileRepository;
+import com.Bootcamp.BankClient.service.impl.IClientProfileService;
 import com.Bootcamp.BankClient.service.mapper.ClientProfileMapper;
 import com.Bootcamp.BankClient.web.model.ClientProfileModel;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.Bootcamp.BankClient.service;
+package com.Bootcamp.BankClient.service.impl;
 
 import java.util.List;
 

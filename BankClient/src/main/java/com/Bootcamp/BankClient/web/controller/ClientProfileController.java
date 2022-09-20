@@ -2,7 +2,7 @@ package com.Bootcamp.BankClient.web.controller;
 
 import java.util.List;
 
-import com.Bootcamp.BankClient.service.IClientProfileService;
+import com.Bootcamp.BankClient.service.impl.IClientProfileService;
 import com.Bootcamp.BankClient.web.model.ClientProfileModel;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

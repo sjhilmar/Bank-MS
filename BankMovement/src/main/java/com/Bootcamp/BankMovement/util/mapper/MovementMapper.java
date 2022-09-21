@@ -1,4 +1,4 @@
-package com.Bootcamp.BankMovement.service.mapper;
+package com.Bootcamp.BankMovement.util.mapper;
 
 import java.util.List;
 

@@ -1,11 +1,5 @@
 package com.Bootcamp.BankMovement.web.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Bootcamp.BankMovement.domain.ClientProduct;
 import com.Bootcamp.BankMovement.service.IClientProductService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,7 +42,7 @@ public class ClientProductController {
 	public ResponseEntity<Mono<ClientProduct>> getById(@PathVariable("id") String id) throws Exception {
 		Mono<ClientProduct> response = clientProductService.findById(id);
 		log.info("getById" + "OK");
-		log.debug(id.toString());
+		log.debug(id);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
@@ -57,15 +57,15 @@ public class ClientProductController {
 	public Mono<ClientProduct> update(@PathVariable("id") String id, @RequestBody ClientProduct clientProductModel)
 			throws Exception {
 		log.info("update" + "OK");
-		log.debug(id.toString() + "/" + clientProductModel.toString());
+		log.debug(id + "/" + clientProductModel.toString());
 		return clientProductService.update(id, clientProductModel);
 	}
 
 	@DeleteMapping({ "{id}" })
 	public void deleteById(@PathVariable("id") String id) throws Exception {
-		clientProductService.deleteById(id);
+		clientProductService.deleteById(id).subscribe();
 		log.info("deleteById" + "OK");
-		log.debug(id.toString());
+		log.debug(id);
 	}
 
 }

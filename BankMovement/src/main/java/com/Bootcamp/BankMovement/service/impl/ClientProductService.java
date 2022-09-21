@@ -1,4 +1,4 @@
-package com.Bootcamp.BankMovement.service;
+package com.Bootcamp.BankMovement.service.impl;
 
 import java.math.BigDecimal;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankMovement.domain.ClientProduct;
 import com.Bootcamp.BankMovement.repository.ClientProductRepository;
+import com.Bootcamp.BankMovement.service.IClientProductService;
 import com.Bootcamp.BankMovement.util.Constance;
 
 import lombok.RequiredArgsConstructor;

@@ -119,10 +119,10 @@ public class MovementController {
 	 * @author aangulom
 	 */
 	@DeleteMapping({ "{id}" })
-	public Mono<Void> deleteById(@PathVariable("id") String id) throws Exception {
+	public void deleteById(@PathVariable("id") String id) throws Exception {
 		log.info("deleteById" + "OK");
 		log.debug(id);
-		return movementService.deleteById(id);
+		movementService.deleteById(id).subscribe();
 		
 	}
 

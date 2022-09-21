@@ -1,4 +1,4 @@
-package com.Bootcamp.BankMovement.service;
+package com.Bootcamp.BankMovement.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.Bootcamp.BankMovement.domain.Movement;
 import com.Bootcamp.BankMovement.repository.ClientProductRepository;
 import com.Bootcamp.BankMovement.repository.MovementRepository;
+import com.Bootcamp.BankMovement.service.IMovementService;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;

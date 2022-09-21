@@ -1,4 +1,4 @@
-package com.Bootcamp.BankMovement.service.mapper;
+package com.Bootcamp.BankMovement.util.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

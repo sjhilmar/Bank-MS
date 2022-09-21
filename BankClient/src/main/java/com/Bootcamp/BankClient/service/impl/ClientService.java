@@ -64,7 +64,7 @@ public class ClientService implements IClientService {
 
 	@Override
 	public Mono<Client> update(String id, Client client) throws Exception {
-		return clientRepository.findById(id).switchIfEmpty(Mono.error(RuntimeException::new))
+		return clientRepository.findById(id).switchIfEmpty(Mono.error(() -> new Throwable("No existe cliente")))
 				.flatMap(t -> clientRepository.save(client));
 //		Optional<Client> clientOptional = clientRepository.findById(id);
 //

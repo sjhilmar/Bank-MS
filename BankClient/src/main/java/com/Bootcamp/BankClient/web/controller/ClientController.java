@@ -60,6 +60,12 @@ public class ClientController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+	@PostMapping("/create")
+	public Mono<Client> create2 (@RequestBody Client client) throws Exception {
+		return  clientService.create(client);
+		
+	}
+	
 	@PutMapping(path = { "{id}" }, produces = { "application/json" })
 	public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody Client client) throws Exception {
 		Mono<Client> response= clientService.update(id, client);

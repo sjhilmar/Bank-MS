@@ -14,8 +14,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-	@Autowired
-	private IProductService productService;
+//	@Autowired
+//	private IProductService productService;
 	
 	@Autowired
 	private ProductRepository repository;
@@ -60,6 +60,6 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Mono<Void> deleteById(String id) throws Exception {
-		return productService.deleteById(id);
+		return repository.deleteById(id);
 	}
 }

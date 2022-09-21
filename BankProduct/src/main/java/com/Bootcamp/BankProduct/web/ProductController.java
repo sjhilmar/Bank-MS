@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Bootcamp.BankProduct.domain.Product;
@@ -31,18 +32,19 @@ public class ProductController {
     private final IProductService productService;
 
     @GetMapping()
-    @Operation(summary = "Obtener lista de productos")
-    public ResponseEntity<Object> getAll() throws Exception {
-        Flux<Product> response = productService.findAll();
+    @Operation(summary = "Get List Of Products")
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Product> getAll() throws Exception {
+        
         log.info("getAll" + "OK");
-        log.debug(response.toString());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        log.debug(HttpStatus.OK.toString());
+        return  productService.findAll();
     }
 
     
     @GetMapping(path = { "{id}" }, produces = { "application/json" })
-    @Operation(summary = "Obtener productos por ID")
-    public ResponseEntity<Object> getById(@PathVariable("id") String id) throws Exception{
+    @Operation(summary = "Get Product by Id")
+    public ResponseEntity<Mono<Product>> getById(@PathVariable("id") String id) throws Exception{
         Mono<Product> response = productService.findById(id);
         log.info("getById" + "OK");
         log.debug(id);
@@ -51,27 +53,29 @@ public class ProductController {
     
     
     @GetMapping(path = { "/codeProduct" }, produces = { "application/json" })
-    @Operation(summary = "Obtener productos por codigo")
-    public ResponseEntity<Object> getByCodeProduct(@RequestParam String codeProduct) throws Exception{
-        Flux<Product> response = productService.findProductByCodeProduct(codeProduct);
+    @Operation(summary = "Get product by id")
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Product> getByCodeProduct(@RequestParam String codeProduct) throws Exception{
+        
         log.info("getByCodeProduct" + "OK");
         log.debug(codeProduct);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return  productService.findProductByCodeProduct(codeProduct);
     }
     
    
     @GetMapping(path = { "/" }, produces = { "application/json" })
-    @Operation(summary = "Obtener productos por descripción")
-    public ResponseEntity<Object> getByDescription(@RequestParam String description) throws Exception{
-        Mono<Product> response = productService.findProductByDescription(description);
+    @Operation(summary = "Get products by description")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Product> getByDescription(@RequestParam String description) throws Exception{
+        
         log.info("getByDescription" + "OK");
         log.debug(description);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return  productService.findProductByDescription(description);
     }
 
     
     @PostMapping()
-    @Operation(summary = "Registrar productos")
+    @Operation(summary = "Create product")
     public Mono<Product> create(@RequestBody Product product) throws Exception {
         log.info("create" + "OK");
         log.debug(product.toString());
@@ -80,17 +84,19 @@ public class ProductController {
 
     @PutMapping(path = { "{id}" }, produces = { "application/json" })
     @Operation(summary = "Modificar productos")
-    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody Product product) throws Exception {
-        Mono<Product> response = productService.update(id, product);
+    public Mono<Product> update(@PathVariable("id") String id, @RequestBody Product product) throws Exception {
+        
         log.info("update" + "OK");
         log.debug(id + "/" + product.toString());
-        return new ResponseEntity<Object>(response, HttpStatus.OK);
+        return productService.update(id, product);
     }
 
     @DeleteMapping({ "{id}" })
-    @Operation(summary = "Eliminar productos por  ID")
+    @Operation(summary = "delete product by id")
     public void deleteById(@PathVariable("id") String id) throws Exception {
         productService.deleteById(id);
+        log.info("delete by id ok");
+        log.debug(id);
     }
 }
 

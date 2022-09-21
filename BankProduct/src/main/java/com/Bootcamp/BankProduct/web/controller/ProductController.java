@@ -1,4 +1,4 @@
-package com.Bootcamp.BankProduct.web;
+package com.Bootcamp.BankProduct.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

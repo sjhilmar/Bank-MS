@@ -1,4 +1,4 @@
-package com.Bootcamp.BankProduct.service.mapper;
+package com.Bootcamp.BankProduct.util;
 
 //@Mapper(componentModel = "spring")
 public interface ProductMapper {

@@ -1,5 +1,6 @@
 package com.Bootcamp.BankClient.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,17 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.Bootcamp.BankClient.domain.Client;
 import com.Bootcamp.BankClient.service.IClientService;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@NoArgsConstructor
+
 @RequestMapping("/v3/client")
 @Slf4j
 public class ClientController {
-	
+	@Autowired
 	private IClientService clientService;
 	
 	@GetMapping()

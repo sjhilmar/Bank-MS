@@ -1,19 +1,19 @@
 package com.Bootcamp.BankClient.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankClient.domain.Client;
 import com.Bootcamp.BankClient.repository.ClientRepository;
 import com.Bootcamp.BankClient.service.IClientService;
 
-import lombok.NoArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@NoArgsConstructor
+
 public class ClientService implements IClientService {
-	
+	@Autowired
 	private ClientRepository clientRepository;
 	
 	@Override

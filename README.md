@@ -3,11 +3,9 @@
 Proyecto BankAccounts
 
 Integrantes:
-
-- Ivan Abel Minaya De La Cruz
-- Sergio Alvarez Toledo
-- Héctor Walter Pretell Hinostroza
-- William Felipe Martel Quiroz
+Carlos Alberto Palacios Aguado
+Sergio Alvarez Toledo
+Bernave Daniel Inche 
 
 Propósito del Proyecto:
 
@@ -17,7 +15,7 @@ Propósito del Proyecto:
 El microservicio está basado en las transacciones de estas clases:
 
 -video youtube
-url: https://www.youtube.com/watch?v=ktUoFE6acHY&ab_channel=Ivanminayadelacruz
+https://everisgroup-my.sharepoint.com/:v:/g/personal/salvarto_emeal_nttdata_com/Eb73-iM1tnxOuUnaw8XJJ2oBoYIMaRYBaHLXi8cBDdyYHg?e=6CWzwM
 
 
 
@@ -46,7 +44,6 @@ Los diagramas C4 desde el más concreto hasta el más detallado:
 
 ![alt text](C4-Componente.vpd.jpg "Diagrama de Componentes")
 
-esternocleidomastoideo
 
 
 

@@ -1,19 +1,19 @@
 package com.Bootcamp.BankClient.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankClient.domain.ClientProfile;
 import com.Bootcamp.BankClient.repository.ClientProfileRepository;
 import com.Bootcamp.BankClient.service.IClientProfileService;
 
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
-public class ClientProfileService implements IClientProfileService {
 
+public class ClientProfileService implements IClientProfileService {
+	@Autowired
 	private ClientProfileRepository clientProfileRepository;
 
 	@Override

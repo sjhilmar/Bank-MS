@@ -40,7 +40,7 @@ public class ClientService implements IClientService {
 		Flux<Client> var = clientRepository.findAll()
 				.filter(t -> t.getDocumentNumber().equals(client.getDocumentNumber()));
 		return var.collectList().flatMap(list -> {
-			if (list.isEmpty()) {
+			if (!list.isEmpty()) {
 				return Mono.error(new Throwable("El cliente ya existe"));
 			}
 			return clientRepository.save(client);

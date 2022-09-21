@@ -1,5 +1,6 @@
 package com.Bootcamp.BankClient.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/v3/clientProfile")
 @Slf4j
 public class ClientProfileController {
-
+@Autowired
 	private IClientProfileService clientProfileService;
 
 	

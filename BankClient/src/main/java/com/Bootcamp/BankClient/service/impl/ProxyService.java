@@ -1,21 +1,21 @@
 package com.Bootcamp.BankClient.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankClient.domain.Proxy;
 import com.Bootcamp.BankClient.repository.ProxyRepository;
 import com.Bootcamp.BankClient.service.IProxyService;
 
-import lombok.NoArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@NoArgsConstructor
+
 public class ProxyService implements IProxyService {
 	
 	
-
+@Autowired
     private ProxyRepository proxyRepository;
     
     @Override

@@ -94,7 +94,7 @@ public class ProductController {
     @DeleteMapping({ "{id}" })
     @Operation(summary = "delete product by id")
     public void deleteById(@PathVariable("id") String id) throws Exception {
-        productService.deleteById(id);
+        productService.deleteById(id).subscribe();
         log.info("delete by id ok");
         log.debug(id);
     }

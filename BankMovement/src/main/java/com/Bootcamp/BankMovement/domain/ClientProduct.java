@@ -1,13 +1,16 @@
 package com.Bootcamp.BankMovement.domain;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import lombok.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -30,5 +33,7 @@ public class ClientProduct {
     private String clientId;
 
     private String codeProduct;
+    
+    private String clientType;
 
 }

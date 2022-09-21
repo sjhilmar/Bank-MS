@@ -1,130 +1,166 @@
 package com.Bootcamp.BankMovement.service;
 
 
-import com.Bootcamp.BankMovement.domain.Movement;
-import lombok.RequiredArgsConstructor;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankMovement.domain.ClientProduct;
 import com.Bootcamp.BankMovement.repository.ClientProductRepository;
-import com.Bootcamp.BankMovement.service.mapper.ClientProductMapper;
-import com.Bootcamp.BankMovement.web.model.ClientProductModel;
+import com.Bootcamp.BankMovement.util.Constance;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class ClientProductService implements IClientProductService{
 
+	@Autowired
     private final ClientProductRepository clientProductRepository;
-    private final ClientProductMapper clientProductMapper;
+//    private final ClientProductMapper clientProductMapper;
 
 
 
 
     @Override
-    public List<ClientProductModel> findAll()  throws Exception {
-        try {
-            var clientProducts = clientProductRepository.findAll();
-            return clientProductMapper.clientProductsToClientProductModels(clientProducts);
-        }
-        catch(Exception ex){
-            throw new Exception("No se encontraron Datos");
-        }
+    public Flux<ClientProduct> findAll()  throws Exception {
+        return clientProductRepository.findAll();
 
     }
 
 
     @Override
-    public ClientProductModel findById(String id) throws Exception {
-        Optional<ClientProduct> clientProduct = clientProductRepository.findById(id);
-        if(clientProduct.isPresent()) return clientProductMapper.clientProductToClientProductModel(clientProduct.get());
-        else throw new Exception("No se encontraron datos");
+    public Mono<ClientProduct> findById(String id) throws Exception {
+//        Optional<ClientProduct> clientProduct = clientProductRepository.findById(id);
+//        if(clientProduct.isPresent()) return clientProductMapper.clientProductToClientProductModel(clientProduct.get());
+//        else throw new Exception("No se encontraron datos");
+    	return clientProductRepository.findById(id)
+    			.switchIfEmpty(Mono.error(() -> new Throwable("No se encontraron datos")));
     }
 
 
     @Override
-    public ClientProductModel create(ClientProductModel clientProductModel)  throws Exception{
-
-
-        Boolean action=false;
-        String message ="";
+    public Mono<ClientProduct> create(ClientProduct clientProductModel)  throws Exception{
+        boolean action=false;
+        String message="";
         try{
             ClientProduct clientProduct = new ClientProduct();
-            if (clientProductModel.getClientType().equals("Personal")) {
+            if (clientProductModel.getClientType().equalsIgnoreCase(Constance.CLIENT_TYPE_PERSON)) {
                 //Validamos que no tenga el tipo de producto repetido para registrar
-                if(clientProductModel.getCodeProduct().equals("0001")
-                        || clientProductModel.getCodeProduct().equals("0002")
-                        || clientProductModel.getCodeProduct().equals("0003") )
+                if(clientProductModel.getCodeProduct().equals(Constance.CODE_PRODUCT_SAVINGS_ACCOUNT)
+                        || clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_CURRENT_ACCOUNT)
+                        || clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_FIXED_TERM_SAVING_ACCOUNT) )
                 {
-                    List<ClientProduct>  clientProducts= clientProductRepository.findAllByClientId(clientProductModel.getClientId());
-                    Optional<ClientProduct> optional = clientProducts.stream()
-                            .filter(x -> clientProductModel.getCodeProduct().equals(x.getCodeProduct()))
-                            .findFirst();
-                    if(optional.isEmpty()){
-                        clientProduct = clientProductRepository.save(clientProductMapper.clientProductModelToClientProduct(clientProductModel));
-                        action=true;
-                    }
-                    else{
-                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
-                    }
+                	
+                	Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
+                			.filter(t -> t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()))
+                			.filter(t -> t.getCodeProduct().equalsIgnoreCase(clientProductModel.getCodeProduct()));
+                	
+                	return clientProducts.collectList().flatMap(t -> {
+                		if(t.isEmpty()) {
+                			action=true;
+                			return clientProductRepository.save(clientProductModel);
+                		}else { message="Customer already has this product ";}
+                		
+                	});
+                		//                    List<ClientProduct>  clientProducts= clientProductRepository.findAllByClientId(clientProductModel.getClientId());
+//                    Optional<ClientProduct> optional = clientProducts.stream()
+//                            .filter(x -> clientProductModel.getCodeProduct().equals(x.getCodeProduct()))
+//                            .findFirst();
+//                    if(optional.isEmpty()){
+//                        clientProduct = clientProductRepository.save(clientProductMapper.clientProductModelToClientProduct(clientProductModel));
+//                        action=true;
+//                    }
+//                    else{
+//                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
+//                    }
                 }
             }
-            if (clientProductModel.getClientType().equals("VIP")) {
+            if (clientProductModel.getClientType().equalsIgnoreCase(Constance.CLIENT_TYPE_VIP)) {
 
-                if(clientProductModel.getCodeProduct().equals("0001"))
+                if(clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CLIENT_TYPE_PERSON))
                 {
-                    List<ClientProduct>  clientProducts= clientProductRepository.findAllByClientId(clientProductModel.getClientId());
-                    Optional<ClientProduct> optional = clientProducts.stream()
-                            .filter(x -> clientProductModel.getCodeProduct().equals(x.getCodeProduct()))
-                            .findFirst();
-
-
-                    if(optional.isEmpty()){
-                        clientProduct = clientProductRepository.save(clientProductMapper.clientProductModelToClientProduct(clientProductModel));
-                        action=true;
-                    }
-                    else{
-                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
-                    }
+                	Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
+                			.filter(t -> t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()))
+                			.filter(t -> t.getCodeProduct().equalsIgnoreCase(clientProductModel.getCodeProduct()));
+                	
+                	return clientProducts.collectList().flatMap(t -> {
+                		if(t.isEmpty()) {
+                			action=true;
+                			return clientProductRepository.save(clientProductModel);
+                		}else { message="Customer already has this product ";}
+                		
+                	});
+                	
+                	
+//                    List<ClientProduct>  clientProducts= clientProductRepository.findAllByClientId(clientProductModel.getClientId());
+//                    Optional<ClientProduct> optional = clientProducts.stream()
+//                            .filter(x -> clientProductModel.getCodeProduct().equals(x.getCodeProduct()))
+//                            .findFirst();
+//
+//
+//                    if(optional.isEmpty()){
+//                        clientProduct = clientProductRepository.save(clientProductMapper.clientProductModelToClientProduct(clientProductModel));
+//                        action=true;
+//                    }
+//                    else{
+//                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
+//                    }
                 }
-                else if(clientProductModel.getCodeProduct().equals("0005"))
+                else if(clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_CREDIT_CARD))
                 {
-                    List<ClientProduct>  clientProducts= clientProductRepository.findAllByClientId(clientProductModel.getClientId());
-                    Optional<ClientProduct> optional = clientProducts.stream()
-                            .filter(x -> clientProductModel.getCodeProduct().equals(x.getCodeProduct()))
-                            .findFirst();
+                	
+                	
+                	Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
+                			.filter(t -> t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()))
+                			.filter(t -> t.getCodeProduct().equalsIgnoreCase(clientProductModel.getCodeProduct()))
+                			.switchIfEmpty(Mono.error(() -> new Throwable("Customer has not Saving Account")))
+                			.filter(t -> t.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_SAVINGS_ACCOUNT))
+                			.switchIfEmpty(Mono.error(() -> new Throwable("Customer already has this product")))
+                			.filter(t -> t.getBalance() != BigDecimal.ZERO)
+                			.switchIfEmpty(s -> message="Customer doesn't has Saving Account and he doesn't balance");
+                	
+                			
+//                			return clientProdutcs.filter(t -> t.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_CREDIT_CARD));
+                	
+//                    List<ClientProduct>  clientProducts= clientProductRepository.findAllByClientId(clientProductModel.getClientId());
+//                    Optional<ClientProduct> optional = clientProducts.stream()
+//                            .filter(x -> clientProductModel.getCodeProduct().equals(x.getCodeProduct()))
+//                            .findFirst();
 
 
-                    if(optional.isEmpty()){
-                        Optional<ClientProduct> optionalClientProd = clientProducts.stream()
-                                .filter(x -> x.getCodeProduct().equals("0001"))
-                                .findFirst();
-
-
-                        if(!optionalClientProd.isEmpty()) {
-
-                            ClientProduct info=   optionalClientProd.get();
-                            if(info.getBalance().compareTo(BigDecimal.ZERO) == 0){
-                                message="No se puedo registrar, el cliente no cuenta con Cuenta de ahorros no tiene saldo.";
-                            }
-                            else{
-                                clientProduct = clientProductRepository.save(clientProductMapper.clientProductModelToClientProduct(clientProductModel));
-                                action=true;
-                            }
-
-                        }
-                        else{
-                            message="No se puedo registrar, el cliente no cuenta con Cuenta de ahorros.";
-                        }
-
-
-                    }
-                    else{
-                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
-                    }
+//                    if(optional.isEmpty()){
+//                        Optional<ClientProduct> optionalClientProd = clientProducts.stream()
+//                                .filter(x -> x.getCodeProduct().equals("0001"))
+//                                .findFirst();
+//
+//
+//                        if(!optionalClientProd.isEmpty()) {
+//
+//                            ClientProduct info=   optionalClientProd.get();
+//                            if(info.getBalance().compareTo(BigDecimal.ZERO) == 0){
+//                                message="No se puedo registrar, el cliente no cuenta con Cuenta de ahorros no tiene saldo.";
+//                            }
+//                            else{
+//                                clientProduct = clientProductRepository.save(clientProductMapper.clientProductModelToClientProduct(clientProductModel));
+//                                action=true;
+//                            }
+//
+//                        }
+//                        else{
+//                            message="No se puedo registrar, el cliente no cuenta con Cuenta de ahorros.";
+//                        }
+//
+//
+//                    }else{
+//                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
+//                    }
+                    //--------------
                 }
                 else{
                     message="No se puedo registrar, el cliente no puede tener el producto.";
@@ -169,19 +205,15 @@ public class ClientProductService implements IClientProductService{
     }
 
     @Override
-    public void update(String id, ClientProductModel clientProductModel)  throws Exception {
-        Optional<ClientProduct> eventOptional = clientProductRepository.findById(id);
-
-        if(eventOptional.isPresent()) {
-            ClientProduct clientProductToUpdate = eventOptional.get();
-            clientProductMapper.update(clientProductToUpdate, clientProductModel);
-            clientProductRepository.save(clientProductToUpdate);
-        }
-        else throw new Exception("No se encontraron datos");
+    public Mono<ClientProduct> update(String id, ClientProduct clientProduct)  throws Exception {
+    	return clientProductRepository.findById(id)
+    			.switchIfEmpty(Mono.error(() -> new Throwable("Data not Found")))
+    			.flatMap(t -> clientProductRepository.save(clientProduct) );
+    
     }
 
     @Override
-    public void deleteById(String id)  throws Exception {
-        clientProductRepository.deleteById(id);
+    public Mono<Void> deleteById(String id)  throws Exception {
+        return clientProductRepository.deleteById(id);
     }
 }

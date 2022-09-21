@@ -1,19 +1,20 @@
 package com.Bootcamp.BankMovement.service;
 
-import java.util.List;
+import com.Bootcamp.BankMovement.domain.ClientProduct;
 
-import com.Bootcamp.BankMovement.web.model.ClientProductModel;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface IClientProductService {
 
 
-    List<ClientProductModel> findAll() throws Exception;
+    Flux<ClientProduct> findAll() throws Exception;
 
-    ClientProductModel findById(String id) throws Exception;
+    Mono<ClientProduct>  findById(String id) throws Exception;
 
-    ClientProductModel create(ClientProductModel clientProductModel) throws Exception;
+    Mono<ClientProduct> create(ClientProduct clientProduc) throws Exception;
 
-    void update(String id, ClientProductModel clientProductModel) throws Exception;
+    Mono<ClientProduct> update(String id, ClientProduct clientProduct) throws Exception;
 
-    void deleteById(String id) throws Exception;
+    Mono<Void> deleteById(String id) throws Exception;
 }

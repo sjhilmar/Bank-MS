@@ -1,79 +1,72 @@
 package com.Bootcamp.BankMovement.service;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Optional;
-
-import com.Bootcamp.BankMovement.service.mapper.ClientProductMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Bootcamp.BankMovement.domain.ClientProduct;
 import com.Bootcamp.BankMovement.domain.Movement;
 import com.Bootcamp.BankMovement.repository.ClientProductRepository;
 import com.Bootcamp.BankMovement.repository.MovementRepository;
-import com.Bootcamp.BankMovement.service.mapper.MovementMapper;
-import com.Bootcamp.BankMovement.web.model.MovementModel;
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class MovementService implements IMovementService {
-	
+	@Autowired
 	private final MovementRepository repository;
-	private final MovementMapper mapper;
-	private final ClientProductMapper clientProductMapper;
+	//private final MovementMapper mapper;
+	//private final ClientProductMapper clientProductMapper;
+	@Autowired
 	private final ClientProductRepository clientProductRepository;
 
 	@Override
-	public List<MovementModel> findAll() throws Exception {
-		List<Movement> movments = repository.findAll();
-		return mapper.movementsToMovementModels(movments);
+	public Flux<Movement> findAll() throws Exception {
+		return repository.findAll();
 	}
 
 	@Override
-	public List<MovementModel> findAllByClientProductId(String id) throws Exception {
-		List<Movement> movments = repository.findAllByClientProductId(id);
-		return mapper.movementsToMovementModels(movments);
-	}
-
-	@Override
-	public MovementModel findById(String id) throws Exception {
-		Optional<Movement> movements = repository.findById(id);
-		if (movements.isPresent()) {
-			return mapper.movementToMovementModel(movements.get());
-		}else {
-			throw new Exception("No se encontraron Datos");
-		}
+	public Flux<Movement> findAllByClientProductId(String id) throws Exception {
+		return  repository.findAllByClientProductId(id);
 		
 	}
 
 	@Override
-	public MovementModel create(MovementModel movementModel) throws Exception {
-
-		Movement movement = repository.save(mapper.movementModelToMovement(movementModel));
-
-		return mapper.movementToMovementModel(movement);
-				
-	}
-
-	@Override
-	public void update(String id, MovementModel movementModel) throws Exception {
-		Optional<Movement> movementOptional = repository.findById(id);
-		if (movementOptional.isPresent()) {
-			Movement movementToUpdate = movementOptional.get();
-			mapper.update(movementToUpdate, movementModel);
-			repository.save(movementToUpdate);
-		}else {
-			throw new Exception("N se encontraron datos");
-		}
+	public Mono<Movement> findById(String id) throws Exception {
+		return repository.findById(id)
+				.switchIfEmpty(Mono.error(() -> new Throwable("No se encontraron datos")));
 		
 	}
 
 	@Override
-	public void deleteById(String id) throws Exception {
-		repository.deleteById(id);
+	public Mono<Movement> create(Movement movement) throws Exception {
+		//validar si existe clientProduct
+		return repository.save(movement);
+
+	}
+
+	@Override
+	public Mono<Movement> update(String id, Movement movement) throws Exception {
+		
+		return repository.findById(id)
+				.switchIfEmpty(Mono.error(() -> new Throwable("No existe movimiento")))
+				.flatMap(t -> repository.save(movement));
+		
+//		Optional<Movement> movementOptional = repository.findById(id);
+//		if (movementOptional.isPresent()) {
+//			Movement movementToUpdate = movementOptional.get();
+//			mapper.update(movementToUpdate, movementModel);
+//			repository.save(movementToUpdate);
+//		}else {
+//			throw new Exception("N se encontraron datos");
+//		}
+		
+	}
+
+	@Override
+	public Mono<Void> deleteById(String id) throws Exception {
+		return repository.deleteById(id);
 		
 	}
 

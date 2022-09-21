@@ -1,11 +1,12 @@
 package com.Bootcamp.BankMovement.repository;
 
 
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+
 import com.Bootcamp.BankMovement.domain.Movement;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
+import reactor.core.publisher.Flux;
 
-public interface MovementRepository extends MongoRepository<Movement, String> {
-    List<Movement> findAllByClientProductId(String clientId);
+public interface MovementRepository extends ReactiveMongoRepository<Movement, String> {
+    Flux<Movement> findAllByClientProductId(String clientId);
 }

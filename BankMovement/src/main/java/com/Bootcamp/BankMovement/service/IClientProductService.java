@@ -11,8 +11,6 @@ public interface IClientProductService {
 
     ClientProductModel findById(String id) throws Exception;
 
-//    ClientProductModel findByClient_ClientIdIgnoreCaseAndProduct_ProductIdIgnoreCase(Long productId,Long clientId) throws Exception;
-
     ClientProductModel create(ClientProductModel clientProductModel) throws Exception;
 
     void update(String id, ClientProductModel clientProductModel) throws Exception;

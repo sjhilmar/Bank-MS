@@ -1,21 +1,22 @@
 package com.Bootcamp.BankMovement.service;
 
-import java.util.List;
+import com.Bootcamp.BankMovement.domain.Movement;
 
-import com.Bootcamp.BankMovement.web.model.MovementModel;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 
 public interface IMovementService {
-	List<MovementModel> findAll() throws Exception;
+	Flux<Movement> findAll() throws Exception;
 
-	List<MovementModel> findAllByClientProductId(String id) throws Exception;
+	Flux<Movement> findAllByClientProductId(String id) throws Exception;
 
-	MovementModel findById(String id) throws Exception;
+	Mono<Movement> findById(String id) throws Exception;
 	
-	MovementModel create(MovementModel movementModel) throws Exception;
+	Mono<Movement> create(Movement movement) throws Exception;
 
-	void update(String id, MovementModel movementModel) throws Exception;
+	Mono<Movement> update(String id, Movement movement) throws Exception;
 
-	void deleteById(String id) throws Exception;
+	Mono<Void> deleteById(String id) throws Exception;
 }

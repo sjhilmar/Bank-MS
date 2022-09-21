@@ -29,7 +29,7 @@ public class ProxyService implements IProxyService {
     }
 
     @Override
-    public Mono<Proxy>  findByFullName(String fullName) throws Exception {
+    public Flux<Proxy>  findByFullName(String fullName) throws Exception {
     	return proxyRepository.findProxyByFullName(fullName);
     	
     	
@@ -39,14 +39,18 @@ public class ProxyService implements IProxyService {
     }
 
     @Override
-    public Flux<Proxy> findByClientId(String clientId) throws Exception {
+    public Mono<Proxy> findByClientId(String clientId) throws Exception {
         return proxyRepository.findProxyByClientId(clientId);
     }
 
     @Override
-    public Mono<Proxy> create(Proxy proxyModel) throws Exception {
-    	return proxyRepository.findProxyByFullName(proxyModel.getFullName())
-    			.switchIfEmpty(proxyRepository.save(proxyModel));
+    public Mono<Proxy> create(Proxy proxy) throws Exception {
+    	Flux<Proxy> var= proxyRepository.findAll()
+    			.filter(t -> t.getId().equals(proxy.getId()));
+    	return var.collectList().flatMap(list -> {
+    		if(list.size()> 0) return Mono.error(new Throwable("El proxy ya existe"));
+    		return proxyRepository.save(proxy);
+    	}); 
     	
 //        if (!proxyRepository.findProxyByFullName(proxyModel.getFullName()).isPresent()){
 //            Proxy proxy = proxyRepository.save(proxyMapper.proxyModelToProxy(proxyModel));

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Bootcamp.BankClient.domain.Proxy;
@@ -31,55 +32,57 @@ public class ProxyController {
 
     @GetMapping()
     // @Operation(summary = "Get List of Proxies")
-    public ResponseEntity<Object> getAll() throws Exception {
-        Flux<Proxy> response = proxyService.findAll();
-        log.info("getAll" + "OK");
-        log.debug(response.toString());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public Flux<Proxy> getAll() throws Exception {
+    	log.info("Get All ok");
+    	log.debug(HttpStatus.OK.toString());
+    	return proxyService.findAll();
     }
 
     @GetMapping(path = { "{id}" }, produces = { "application/json" })
-    public ResponseEntity<Object> getById(@PathVariable("id") String id) throws Exception{
+    public ResponseEntity<Mono<Proxy>> getById(@PathVariable("id") String id) throws Exception{
         Mono<Proxy> response = proxyService.findById(id);
         log.info("getById" + "OK");
-        log.debug(id.toString());
+        log.debug(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Object> create(@RequestBody Proxy proxyModel) throws Exception {
-        Mono<Proxy> response = proxyService.create(proxyModel);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Proxy> create(@RequestBody Proxy proxyModel) throws Exception {
         log.info("create" + "OK");
         log.debug(proxyModel.toString());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return proxyService.create(proxyModel);
     }
 
     @PutMapping(path = { "{id}" }, produces = { "application/json" })
-    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody Proxy proxyModel) throws Exception {
-        Mono<Proxy>response = proxyService.update(id, proxyModel);
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Proxy> update(@PathVariable("id") String id, @RequestBody Proxy proxyModel) throws Exception {
         log.info("update" + "OK");
-        log.debug(id.toString() + "/" + proxyModel.toString());
-        return new ResponseEntity<Object>(response, HttpStatus.OK);
+        log.debug(id + "/" + proxyModel.toString());
+        return proxyService.update(id, proxyModel);
+        
     }
 
     @DeleteMapping({ "{id}" })
+    @ResponseStatus(HttpStatus.OK)
     public void deleteById(@PathVariable("id") String id) throws Exception {
-        proxyService.deleteById(id);
+        proxyService.deleteById(id).subscribe();
         log.info("deleteById" + "OK");
-        log.debug(id.toString());
+        log.debug(id);
     }
 
     @GetMapping(path = { "byName/{fullName}" }, produces = { "application/json" })
-    public ResponseEntity<Object> getByFullName(@PathVariable("fullName") String fullName) throws Exception{
-       Mono<Proxy>  response = proxyService.findByFullName(fullName);
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<Proxy> getByFullName(@PathVariable("fullName") String fullName) throws Exception{
+       
         log.info("getByFullName" + "OK");
         log.debug(fullName);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+       return proxyService.findByFullName(fullName);
     }
 
     @GetMapping("byClientId/{clientId}")
-    public ResponseEntity<Object> getProxiesByClientId(String clientId) throws Exception {
-        Flux<Proxy> response = proxyService.findByClientId(clientId);
+    public ResponseEntity<Mono<Proxy>> getProxiesByClientId(String clientId) throws Exception {
+        Mono<Proxy> response = proxyService.findByClientId(clientId);
         log.info("getProxiesByClientId" + "OK");
         log.debug(response.toString());
         return new ResponseEntity<>(response, HttpStatus.OK);

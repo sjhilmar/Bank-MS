@@ -11,13 +11,13 @@ public interface IProxyService {
 
     Mono<Proxy> findById(String id) throws Exception;
 
-    Mono<Proxy> findByFullName(String fullName) throws Exception;
+    Flux<Proxy> findByFullName(String fullName) throws Exception;
 
-    Flux<Proxy> findByClientId(String clientId) throws Exception;
+    Mono<Proxy> findByClientId(String clientId) throws Exception;
 
-    Mono<Proxy> create(Proxy proxyModel) throws Exception;
+    Mono<Proxy> create(Proxy proxy) throws Exception;
 
-    Mono<Proxy> update(String id, Proxy proxyModel) throws Exception;
+    Mono<Proxy> update(String id, Proxy proxy) throws Exception;
 
    Mono<Void> deleteById(String id) throws Exception;
 

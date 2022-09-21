@@ -1,12 +1,10 @@
 package com.Bootcamp.BankClient.service;
 
-import org.springframework.stereotype.Component;
-
 import com.Bootcamp.BankClient.domain.Proxy;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-@Component
+
 public interface IProxyService {
 
     Flux<Proxy> findAll() throws Exception;

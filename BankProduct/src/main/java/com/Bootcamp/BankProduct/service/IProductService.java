@@ -1,23 +1,24 @@
 package com.Bootcamp.BankProduct.service;
 
-import java.util.List;
+import com.Bootcamp.BankProduct.domain.Product;
 
-import com.Bootcamp.BankProduct.web.model.ProductModel;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 public interface IProductService {
 	
-	List<ProductModel> findAll() throws Exception;
+	Flux<Product> findAll() throws Exception;
 
-    ProductModel findById(String id) throws Exception;
+    Mono<Product> findById(String id) throws Exception;
 
-    ProductModel findProductByDescription(String description) throws Exception;
+    Mono<Product> findProductByDescription(String description) throws Exception;
     
-    ProductModel findProductByCodeProduct(String codeProduct) throws Exception;
+    Flux<Product> findProductByCodeProduct(String codeProduct) throws Exception;
 
-    ProductModel create(ProductModel productModel) throws Exception;
+    Mono<Product> create(Product product) throws Exception;
 
-    void update(String id, ProductModel productModel) throws Exception;
+    Mono<Product> update(String id, Product product) throws Exception;
 
-    void deleteById(String id) throws Exception;
+    Mono<Void> deleteById(String id) throws Exception;
 }

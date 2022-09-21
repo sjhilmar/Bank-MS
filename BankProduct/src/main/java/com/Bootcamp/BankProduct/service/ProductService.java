@@ -1,80 +1,65 @@
 package com.Bootcamp.BankProduct.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Bootcamp.BankProduct.domain.Product;
 import com.Bootcamp.BankProduct.repository.ProductRepository;
-import com.Bootcamp.BankProduct.service.mapper.ProductMapper;
-import com.Bootcamp.BankProduct.web.model.ProductModel;
 
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-    private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
-
-    @Override
-    public List<ProductModel> findAll() throws Exception {
-        List<Product> products = productRepository.findAll();
-        return productMapper.productToProductModels(products);
-    }
-
-    @Override
-    public ProductModel findById(String id) throws Exception {
-        Optional<Product> product = productRepository.findById(id);
-        if(product.isPresent())	return productMapper.productToProductModel(product.get());
-        else throw new Exception("No se encontraron datos");
-    }
-
-    @Override
-    public ProductModel findProductByDescription(String description) throws Exception {
-        Optional<Product> product = productRepository.findProductByDescription(description);
-        if(product.isPresent())	return productMapper.productToProductModel(product.get());
-        else throw new Exception("No se encontraron datos");
-    }
-
-    @Override
-    public ProductModel create(ProductModel productModel) throws Exception {
-    	
-    	List<Product> productList = productRepository.findProductByCodeProduct(productModel.getCodeProduct());
-    	if(productList.size() != 0) {
-  	    	throw new Exception("El codigo del producto ya se encuentra registrado");    	
-  	    }
-    	else {
-        Product product = productRepository.save(productMapper.productModelToProduct(productModel));
-        return productMapper.productToProductModel(product);
-    	}
-    }
-
-    @Override
-    public void update(String id, ProductModel productModel) throws Exception {
-        Optional<Product> productOptional = productRepository.findById(id);
-
-        if(productOptional.isPresent()) {
-            Product productToUpdate = productOptional.get();
-            productMapper.update(productToUpdate, productModel);
-            productRepository.save(productToUpdate);
-        }
-        else throw new Exception("No se encontraron datos");
-    }
-
-    @Override
-    public void deleteById(String id) throws Exception {
-        productRepository.deleteById(id);
-    }
+	@Autowired
+	private IProductService productService;
+	
+	@Autowired
+	private ProductRepository repository;
 
 	@Override
-	public ProductModel findProductByCodeProduct(String codeProduct) throws Exception {
-		  List<Product> product = productRepository.findProductByCodeProduct(codeProduct);
-		  if(product.size() != 0)	return productMapper.productToProductModel(product.get(0));
-	        else throw new Exception("No se encontraron datos");
+	public Flux<Product> findAll() throws Exception {
+		return repository.findAll()
+				.switchIfEmpty(Mono.error(RuntimeException::new));
 	}
 
+	@Override
+	public Mono<Product> findById(String id) throws Exception {
+		return repository.findById(id)
+				.switchIfEmpty(Mono.error(RuntimeException::new));
+	}
 
+	@Override
+	public Mono<Product> findProductByDescription(String description) throws Exception {
+		return repository.findProductByDescription(description)
+				.switchIfEmpty(Mono.error(RuntimeException::new));
+	}
+
+	@Override
+	public Flux<Product> findProductByCodeProduct(String codeProduct) throws Exception {
+		return repository.findProductByCodeProduct(codeProduct)
+				.switchIfEmpty(Mono.error(RuntimeException::new));
+	}
+
+	@Override
+	public Mono<Product> create(Product product) throws Exception {
+		return repository.findProductByCodeProduct(product.getCodeProduct())
+				.take(0).singleOrEmpty()
+				.switchIfEmpty(repository.save(product));
+	}
+
+	@Override
+	public Mono<Product> update(String id, Product product) throws Exception {
+		return repository.findById(id)
+				.switchIfEmpty(Mono.error(RuntimeException::new))
+				.flatMap(t -> repository.save(product));
+	}
+
+	@Override
+	public Mono<Void> deleteById(String id) throws Exception {
+		return productService.deleteById(id);
+	}
 }

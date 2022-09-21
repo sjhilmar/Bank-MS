@@ -1,20 +1,21 @@
 package com.Bootcamp.BankProduct.domain;
 
-import javax.persistence.Entity;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import io.swagger.v3.oas.annotations.servers.Server;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "Product")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "Product")
 public class Product {
 	
 	

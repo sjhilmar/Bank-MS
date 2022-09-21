@@ -1,18 +1,15 @@
 package com.Bootcamp.BankProduct.repository;
 
-
-import org.springframework.data.mongodb.repository.MongoRepository;
-
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import com.Bootcamp.BankProduct.domain.Product;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Optional;
 
+public interface ProductRepository extends ReactiveMongoRepository<Product, String> {
 
-public interface ProductRepository extends MongoRepository<Product, String> {
-
-     Optional<Product> findProductByDescription(String description);
-     	List<Product>findProductByCodeProduct(String codeProduct);
+     Mono<Product> findProductByDescription(String description);
+     	Flux<Product>findProductByCodeProduct(String codeProduct);
 }

@@ -17,14 +17,17 @@ import com.bootcamp.java.bankwallet.domain.WalletClient;
 import com.bootcamp.java.bankwallet.service.IWalletClientService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/wallet")
 @Slf4j
 public class WalletClientController {
+	
 	@Autowired
 	private IWalletClientService service;
 	

@@ -17,14 +17,17 @@ import com.bootcamp.java.bankwallet.domain.MovementWallet;
 import com.bootcamp.java.bankwallet.service.IMovementWalletService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/v1/walletMovement")
 @Slf4j
 public class MovementWalletController {
+	
 	@Autowired
 	private IMovementWalletService service;
 	

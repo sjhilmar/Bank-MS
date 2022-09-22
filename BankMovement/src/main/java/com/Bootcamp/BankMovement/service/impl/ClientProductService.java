@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.Bootcamp.BankMovement.domain.ClientProduct;
 import com.Bootcamp.BankMovement.repository.ClientProductRepository;
 import com.Bootcamp.BankMovement.service.IClientProductService;
-import com.Bootcamp.BankMovement.util.Constance;
+import com.Bootcamp.BankMovement.util.Constants;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -43,12 +43,12 @@ public class ClientProductService implements IClientProductService {
 		String message = "";
 		try {
 			//ClientProduct clientProduct = new ClientProduct();
-			if (clientProductModel.getClientType().equalsIgnoreCase(Constance.CLIENT_TYPE_PERSON)) {
+			if (clientProductModel.getClientType().equalsIgnoreCase(Constants.CLIENT_TYPE_PERSON)) {
 				// Validamos que no tenga el tipo de producto repetido para registrar
-				if (clientProductModel.getCodeProduct().equals(Constance.CODE_PRODUCT_SAVINGS_ACCOUNT)
-						|| clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_CURRENT_ACCOUNT)
+				if (clientProductModel.getCodeProduct().equals(Constants.CODE_PRODUCT_SAVINGS_ACCOUNT)
+						|| clientProductModel.getCodeProduct().equalsIgnoreCase(Constants.CODE_PRODUCT_CURRENT_ACCOUNT)
 						|| clientProductModel.getCodeProduct()
-								.equalsIgnoreCase(Constance.CODE_PRODUCT_FIXED_TERM_SAVING_ACCOUNT)) {
+								.equalsIgnoreCase(Constants.CODE_PRODUCT_FIXED_TERM_SAVING_ACCOUNT)) {
 
 					Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
 							.filter(t -> t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()))
@@ -78,9 +78,9 @@ public class ClientProductService implements IClientProductService {
 //                    }
 				}
 			}
-			if (clientProductModel.getClientType().equalsIgnoreCase(Constance.CLIENT_TYPE_VIP)) {
+			if (clientProductModel.getClientType().equalsIgnoreCase(Constants.CLIENT_TYPE_VIP)) {
 
-				if (clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CLIENT_TYPE_PERSON)) {
+				if (clientProductModel.getCodeProduct().equalsIgnoreCase(Constants.CLIENT_TYPE_PERSON)) {
 					Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
 							.filter(t -> t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()))
 							.filter(t -> t.getCodeProduct().equalsIgnoreCase(clientProductModel.getCodeProduct()));
@@ -109,13 +109,13 @@ public class ClientProductService implements IClientProductService {
 //                    else{
 //                        message="No se puedo registrar, el cliente ya cuenta con este producto.";
 //                    }
-				} else if (clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_CREDIT_CARD)) {
+				} else if (clientProductModel.getCodeProduct().equalsIgnoreCase(Constants.CODE_PRODUCT_CREDIT_CARD)) {
 
 					Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
 							.filter(t -> t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()))
 							.filter(t -> t.getCodeProduct().equalsIgnoreCase(clientProductModel.getCodeProduct()))
 							.switchIfEmpty(Mono.error(new Throwable("Customer has not Saving Account")))
-							.filter(t -> t.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_SAVINGS_ACCOUNT))
+							.filter(t -> t.getCodeProduct().equalsIgnoreCase(Constants.CODE_PRODUCT_SAVINGS_ACCOUNT))
 							.switchIfEmpty(Mono.error(new Throwable("Customer already has this product")))
 							.filter(t -> t.getBalance() != BigDecimal.ZERO);
 
@@ -164,14 +164,14 @@ public class ClientProductService implements IClientProductService {
 				}
 
 			}
-			if (clientProductModel.getClientType().equals(Constance.CLIENT_TYPE_BUSINESS)) {
+			if (clientProductModel.getClientType().equals(Constants.CLIENT_TYPE_BUSINESS)) {
 
 				return clientProductRepository.save(clientProductModel);
 //                return clientProductModel ;
 
 			}
-			if (clientProductModel.getClientType().equalsIgnoreCase(Constance.CLIENT_TYPE_PYME)) {
-				if (clientProductModel.getCodeProduct().equalsIgnoreCase(Constance.CODE_PRODUCT_CURRENT_ACCOUNT)) {
+			if (clientProductModel.getClientType().equalsIgnoreCase(Constants.CLIENT_TYPE_PYME)) {
+				if (clientProductModel.getCodeProduct().equalsIgnoreCase(Constants.CODE_PRODUCT_CURRENT_ACCOUNT)) {
 					Flux<ClientProduct> clientProducts = clientProductRepository.findAll()
 							.filter(t ->t.getClientId().equalsIgnoreCase(clientProductModel.getClientId()) )
 							.filter(t ->t.getCodeProduct().equalsIgnoreCase(clientProductModel.getCodeProduct()));

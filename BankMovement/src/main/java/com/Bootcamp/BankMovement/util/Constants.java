@@ -1,6 +1,6 @@
 package com.Bootcamp.BankMovement.util;
 
-public class Constance {
+public class Constants {
 	
 	public static final String CLIENT_TYPE_PERSON="Persona";
 	public static final String CLIENT_TYPE_BUSINESS="Business";

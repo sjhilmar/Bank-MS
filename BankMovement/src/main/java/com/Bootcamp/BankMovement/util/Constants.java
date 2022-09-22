@@ -2,7 +2,7 @@ package com.Bootcamp.BankMovement.util;
 
 public class Constants {
 	
-	public static final String CLIENT_TYPE_PERSON="Persona";
+	public static final String CLIENT_TYPE_PERSON="Personal";
 	public static final String CLIENT_TYPE_BUSINESS="Business";
 	public static final String CLIENT_TYPE_VIP="VIP";
 	public static final String CLIENT_TYPE_PYME="PYME";

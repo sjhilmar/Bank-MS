@@ -221,4 +221,19 @@ public class ClientProductService implements IClientProductService {
 	public Mono<Void> deleteById(String id) throws Exception {
 		return clientProductRepository.deleteById(id);
 	}
-}
+
+	@Override
+	public Flux<ClientProduct> findAllByClientId(String clientId) throws Exception {
+		return clientProductRepository.findAllByClientId(clientId)
+				.switchIfEmpty(Flux.error(() -> new Throwable("Data not Found")));
+	}
+
+	@Override
+	public Flux<ClientProduct> findAllByCodeProduct(String codeProduct) throws Exception {
+		return clientProductRepository.findAllByCodeProduct(codeProduct)
+				.switchIfEmpty(Flux.error(() -> new Throwable("Data not Found")));
+	}
+
+	
+
+	}

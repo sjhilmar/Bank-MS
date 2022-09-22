@@ -57,8 +57,8 @@ public class ClientController {
 
 	@GetMapping(path = { "/find/{document}" }, produces = { "application/json" })
 	@ResponseStatus(HttpStatus.OK)
-	public Flux<Client> getByNameAndDescription(@PathVariable("document") String document) throws Exception {
-		log.info("getByNameAndDescription" + "OK");
+	public Flux<Client> getByDocumentNumber(@PathVariable("document") String document) throws Exception {
+		log.info("getByDocumentNumber" + "OK");
 		log.debug(document);
 		return clientService.findByDocumentNumber(document);
 		

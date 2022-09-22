@@ -1,12 +1,16 @@
 package com.Bootcamp.BankMovement.domain;
 
-import lombok.*;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

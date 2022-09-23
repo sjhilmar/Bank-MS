@@ -1,6 +1,7 @@
 package com.bootcamp.java.bankwallet.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.bootcamp.java.bankwallet.domain.MovementWallet;
@@ -39,9 +40,10 @@ public class MovementWalletService implements IMovementWalletService {
 			.flatMap(t -> {
 				if (!t.isEmpty()) {
 					movement.setWalletClient(t.get(0));
+					t.get(0).setBalance(movement.getAmount());
 					return repository.save(movement);
 				}else {
-					return Mono.error(new Exception("No se pudo guardar"));
+					return Mono.error(new Exception( HttpStatus.BAD_REQUEST.toString()));
 				}
 			});
 		

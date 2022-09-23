@@ -17,7 +17,7 @@ public class MovementWalletService implements IMovementWalletService {
 	@Autowired
 	private MovementWalletReposiroty repository;
 	@Autowired
-	private WalletClientReposiroty clietRepository;
+	private WalletClientReposiroty clientRepository;
  	
 	@Override
 	public Flux<MovementWallet> findAll() throws Exception {
@@ -32,18 +32,18 @@ public class MovementWalletService implements IMovementWalletService {
 
 	@Override
 	public Mono<MovementWallet> create(String phoneNumber,MovementWallet movement) throws Exception {
-		
-		return repository.save(movement);
-//		Flux<MovementWallet> valida = repository.findAll()
-//				.filter(t -> t.getId().equals(movement.getId()))
-//				.switchIfEmpty(Mono.error(new Exception("Movement already exists")))
-//				.filter(t-> t.getWalletClient().getPhoneNumber().equalsIgnoreCase(phoneNumber))
-//				.switchIfEmpty(Mono.error(new Exception("NumberPhone doesn't exists")));
-//		return valida.collectList()
-//				.flatMap(t ->{
-//					if(!t.isEmpty()) return Mono.error(new Exception("Movement already exists"));
-//					return repository.save(movement);
-//				});
+	return clientRepository.findAll()
+			.filter(t ->t.getPhoneNumber().equalsIgnoreCase(phoneNumber))
+			.switchIfEmpty(Mono.error(new Exception("Number Phone doesn't exists")))
+			.collectList()
+			.flatMap(t -> {
+				if (!t.isEmpty()) {
+					movement.setWalletClient(t.get(0));
+					return repository.save(movement);
+				}else {
+					return Mono.error(new Exception("No se pudo guardar"));
+				}
+			});
 		
 	}
 

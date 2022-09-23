@@ -78,5 +78,16 @@ public class WalletClientController {
 		service.deleteById(id).subscribe();
 		
 	}
+	
+	@GetMapping(path = {"{numberPhone}"},produces = {"application/json"})
+	@Operation(summary = "get wallet client by number phone")
+	public ResponseEntity<Mono<WalletClient>> findByNumberPhone(@PathVariable("numberPhone") String numberPhone)throws Exception{
+		Mono<WalletClient> client = service.findByPhoneNumber(numberPhone);
+		HttpStatus status=(client!=null)?HttpStatus.OK: HttpStatus.NOT_FOUND;
+		log.info(status.toString());
+		log.debug(status.toString());
+		return new ResponseEntity<>(client,status);
+	}
+	
 
 }

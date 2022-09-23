@@ -16,4 +16,7 @@ public interface IWalletClientService {
 	Mono<WalletClient> update(String id, WalletClient client) throws Exception;
 
 	Mono<Void> deleteById(String id) throws Exception;
+	
+	Mono<WalletClient> findByPhoneNumber(String phoneNumber) throws Exception;
+	
 }

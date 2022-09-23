@@ -24,7 +24,6 @@ public class Client {
 	    @Id
 	    private String id;
 
-	    //private String clientProfileId;
 	    private List<ClientProfile> clientProfile;
 
 	    @Column(unique=true)

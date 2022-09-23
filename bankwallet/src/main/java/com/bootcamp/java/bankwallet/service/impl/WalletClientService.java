@@ -53,4 +53,11 @@ public class WalletClientService implements IWalletClientService {
 		
 	}
 
+	@Override
+	public Mono<WalletClient> findByPhoneNumber(String phoneNumber) throws Exception {
+
+		return repository.findByPhoneNumber(phoneNumber)
+				.switchIfEmpty(Mono.error(new Exception("Number Phone not exists")));
+	}
+
 }

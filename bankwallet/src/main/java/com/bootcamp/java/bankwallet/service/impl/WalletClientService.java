@@ -43,7 +43,6 @@ public class WalletClientService implements IWalletClientService {
 		return repository.findById(id)
 				.switchIfEmpty(Mono.error(new Exception("Client not exist")))
 				.flatMap(t ->repository.save(client));
-		
 	}
 
 	@Override

@@ -52,9 +52,13 @@ public class MovementWalletService implements IMovementWalletService {
 					}
 				}).flatMap(t ->{
 					if (movement.getType().equalsIgnoreCase(Constants.MOVEMENT_TYPE_DEPOSIT)) {
+						t.setBalance(movement.getAmount()+ t.getBalance());
+						clientRepository.save(t).subscribe();
 						return repository.save(movement);
 					}else if (movement.getType().equalsIgnoreCase(Constants.MOVEMENT_TYPE_WITHDRAWAL)) {
 						if (movement.getAmount()<= t.getBalance()) {
+							t.setBalance(t.getBalance()-movement.getAmount());
+							clientRepository.save(t).subscribe();
 							return repository.save(movement);
 						}else {
 							return Mono.error(new Exception("Amount is higher than banlance"));

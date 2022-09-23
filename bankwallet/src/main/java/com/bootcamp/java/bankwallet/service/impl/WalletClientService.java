@@ -29,13 +29,19 @@ public class WalletClientService implements IWalletClientService {
 
 	@Override
 	public Mono<WalletClient> create(WalletClient client) throws Exception {
+		Flux<WalletClient> valida= repository.findAll()
+				.filter(t ->t.getDocumentNumber().equalsIgnoreCase(client.getDocumentNumber()))
+				.filter(t ->t.getPhoneNumber().equalsIgnoreCase(client.getPhoneNumber()));
 		
-			Flux<WalletClient>valida = repository.findAll().filter(t ->t.getId().equalsIgnoreCase(client.getId()) );
-			return valida.collectList().flatMap(t -> {
-				if (!t.isEmpty()) return  Mono.error(new Exception("Client exist"));
-				return repository.save(client);
+		return valida.collectList()
+				.flatMap(t -> {
+				if (t.isEmpty()) {
+					return repository.save(client);
+				}else {
+					return Mono.error(new Throwable("There are data already exists like Document number or Phone Number created"));
+				}
 			});
-		
+						
 	}
 
 	@Override
@@ -56,7 +62,13 @@ public class WalletClientService implements IWalletClientService {
 	public Mono<WalletClient> findByPhoneNumber(String phoneNumber) throws Exception {
 
 		return repository.findByPhoneNumber(phoneNumber)
-				.switchIfEmpty(Mono.error(new Exception("Number Phone not exists")));
+				.switchIfEmpty(Mono.error(new Exception("Phone number doesn't exists")));
+	}
+
+	@Override
+	public Mono<WalletClient> findByDocumentNumber(String documentNumber) throws Exception {
+		return repository.findByDocumentNumber(documentNumber)
+				.switchIfEmpty(Mono.error(new Exception("Document number doesn't exists")));
 	}
 
 }

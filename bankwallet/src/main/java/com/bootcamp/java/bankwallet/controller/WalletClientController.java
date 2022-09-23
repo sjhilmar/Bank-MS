@@ -79,7 +79,7 @@ public class WalletClientController {
 		
 	}
 	
-	@GetMapping(path = {"{numberPhone}"},produces = {"application/json"})
+	@GetMapping(path = {"findByPhone/{numberPhone}"},produces = {"application/json"})
 	@Operation(summary = "get wallet client by number phone")
 	public ResponseEntity<Mono<WalletClient>> findByNumberPhone(@PathVariable("numberPhone") String numberPhone)throws Exception{
 		Mono<WalletClient> client = service.findByPhoneNumber(numberPhone);

@@ -19,4 +19,6 @@ public interface IWalletClientService {
 	
 	Mono<WalletClient> findByPhoneNumber(String phoneNumber) throws Exception;
 	
+	Mono<WalletClient> findByDocumentNumber(String documentNumber)  throws Exception;;
+	
 }

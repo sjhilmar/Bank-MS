@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
 
 public interface WalletClientReposiroty extends ReactiveMongoRepository<WalletClient, String>{
 	Mono<WalletClient> findByPhoneNumber(String phoneNumber);
-
+	Mono<WalletClient> findByDocumentNumber(String documentNumber);
 }

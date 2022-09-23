@@ -3,7 +3,6 @@ package com.Bootcamp.BankMovement.domain;
 
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,6 +22,6 @@ public class CreditDebts {
 	private String clientProductId;
 	private Date dateDebts;
 	private Double amountDebts;
-	private List<ClientProduct> clientProduct;
+//	private List<ClientProduct> clientProduct;
 		
 }

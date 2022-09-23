@@ -9,5 +9,5 @@ import reactor.core.publisher.Flux;
 public interface ClientProductRepository extends ReactiveMongoRepository<ClientProduct, String> {
     Flux<ClientProduct> findAllByClientId(String clientId);
     Flux<ClientProduct> findAllByCodeProduct(String codeProduct);
-    Flux<ClientProduct> findAllByRangeOfDate(String initialDate, String finalDate);
+
 }

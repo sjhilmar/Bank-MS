@@ -33,6 +33,7 @@ public class WalletClientController {
 	
 	@GetMapping("/findAll")
 	@Operation(summary = "find all Wallet client")
+	@ResponseStatus(HttpStatus.OK)
 	public Flux<WalletClient>findAll() throws Exception{
 		log.info("findALL");
 		log.debug(HttpStatus.OK.toString());
@@ -41,6 +42,7 @@ public class WalletClientController {
 	
 	@GetMapping(path = { "{id}" }, produces = { "application/json" })
 	@Operation(summary =  "find wallet client by id")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Mono<WalletClient>> findById(@PathVariable("id") String id) throws Exception {
 		Mono<WalletClient> client= service.findById(id);
 		HttpStatus status=(client!=null)?HttpStatus.OK:HttpStatus.NOT_FOUND;
@@ -50,8 +52,8 @@ public class WalletClientController {
 
 	}
 	@PostMapping("/create")
-	@ResponseStatus(HttpStatus.CREATED)
 	@Operation(summary = "create a new wallet client")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Mono<WalletClient> create(@RequestBody WalletClient client) throws Exception {
 		log.info("Create ok");
 		log.debug(client.toString());
@@ -59,8 +61,8 @@ public class WalletClientController {
 
 	}
 	@PutMapping(path = { "update/{id}" }, produces = { "application/json" })
-	@ResponseStatus(HttpStatus.OK)
 	@Operation(summary = "update a wallet client")
+	@ResponseStatus(HttpStatus.OK)
 	public Mono<WalletClient> update(@PathVariable("id") String id, @RequestBody WalletClient client) throws Exception {
 		log.info("update OK");
 		log.debug(id + "/" + client.toString());
@@ -68,8 +70,8 @@ public class WalletClientController {
 
 	}
 	@DeleteMapping({ "delete/{id}" })
-	@ResponseStatus(HttpStatus.OK)
 	@Operation(summary = "delete a wallet client")
+	@ResponseStatus(HttpStatus.OK)
 	public void deleteById(@PathVariable("id") String id) throws Exception {
 		log.info("deleteById OK");
 		log.debug(id);

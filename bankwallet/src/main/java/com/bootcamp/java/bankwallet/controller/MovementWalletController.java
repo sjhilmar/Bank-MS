@@ -33,6 +33,7 @@ public class MovementWalletController {
 	
 	@GetMapping("/findAll")
 	@Operation(summary = "find all Wallet movement")
+	@ResponseStatus(HttpStatus.OK)
 	public Flux<MovementWallet>findAll() throws Exception{
 		log.info("findALL");
 		log.debug(HttpStatus.OK.toString());
@@ -41,6 +42,7 @@ public class MovementWalletController {
 	
 	@GetMapping(path = { "{id}" }, produces = { "application/json" })
 	@Operation(summary =  "find wallet movement by id")
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Mono<MovementWallet>> findById(@PathVariable("id") String id) throws Exception {
 		Mono<MovementWallet> client= service.findById(id);
 		HttpStatus status=(client!=null)?HttpStatus.OK:HttpStatus.NOT_FOUND;
@@ -49,18 +51,18 @@ public class MovementWalletController {
 		return new ResponseEntity<>(client,status);
 
 	}
-	@PostMapping("/create")
-	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping(path = { "create/{phoneNumber}" }, produces = {"application/json"})
 	@Operation(summary = "create a new wallet movement")
-	public Mono<MovementWallet> create(@RequestBody MovementWallet client) throws Exception {
+	@ResponseStatus(HttpStatus.CREATED)
+	public Mono<MovementWallet> create(@PathVariable("phoneNumber") String phoneNumber, @RequestBody MovementWallet client) throws Exception {
 		log.info("Create ok");
 		log.debug(client.toString());
-		return service.create(client);
+		return service.create(phoneNumber,client);
 
 	}
 	@PutMapping(path = { "update/{id}" }, produces = { "application/json" })
-	@ResponseStatus(HttpStatus.OK)
 	@Operation(summary = "update a wallet movement")
+	@ResponseStatus(HttpStatus.OK)
 	public Mono<MovementWallet> update(@PathVariable("id") String id, @RequestBody MovementWallet client) throws Exception {
 		log.info("update OK");
 		log.debug(id + "/" + client.toString());
@@ -68,8 +70,8 @@ public class MovementWalletController {
 
 	}
 	@DeleteMapping({ "delete/{id}" })
-	@ResponseStatus(HttpStatus.OK)
 	@Operation(summary = "delete a wallet movement")
+	@ResponseStatus(HttpStatus.OK)
 	public void deleteById(@PathVariable("id") String id) throws Exception {
 		log.info("deleteById OK");
 		log.debug(id);

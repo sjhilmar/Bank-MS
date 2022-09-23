@@ -2,6 +2,8 @@ package com.bootcamp.java.bankwallet.domain;
 
 import java.util.Date;
 
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -17,10 +19,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Document("MovementWallet")
 public class MovementWallet {
-	private String movementId;
+	@Id
+	private String id;
 	private Date movementDate;
 	private String type;
 	private double amount;
-	private String walletId;
+	private WalletClient walletClient;
 
 }

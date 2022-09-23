@@ -7,9 +7,11 @@ import com.bootcamp.java.bankwallet.domain.WalletClient;
 import com.bootcamp.java.bankwallet.repository.WalletClientReposiroty;
 import com.bootcamp.java.bankwallet.service.IWalletClientService;
 
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 @Service
+@RequiredArgsConstructor
 public class WalletClientService implements IWalletClientService {
 	@Autowired
 	private WalletClientReposiroty repository;
@@ -28,7 +30,7 @@ public class WalletClientService implements IWalletClientService {
 	@Override
 	public Mono<WalletClient> create(WalletClient client) throws Exception {
 		
-			Flux<WalletClient>valida = repository.findAll().filter(t ->t.getWalletId().equalsIgnoreCase(client.getWalletId()) );
+			Flux<WalletClient>valida = repository.findAll().filter(t ->t.getId().equalsIgnoreCase(client.getId()) );
 			return valida.collectList().flatMap(t -> {
 				if (!t.isEmpty()) return  Mono.error(new Exception("Client exist"));
 				return repository.save(client);

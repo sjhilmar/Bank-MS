@@ -23,23 +23,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.boot</groupId> -->
+<!-- 			<artifactId>spring-boot-starter-data-mongodb</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -47,26 +39,17 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -78,20 +61,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -116,9 +85,45 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<!-- #IMinaya config #spring-cloud-starter-bootstrap -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -133,18 +138,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

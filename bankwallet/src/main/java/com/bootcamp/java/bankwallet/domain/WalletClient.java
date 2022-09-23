@@ -1,5 +1,7 @@
 package com.bootcamp.java.bankwallet.domain;
 
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -15,9 +17,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Document("walletClient")
 public class WalletClient {
-	private String walletId;
+	@Id
+	private String id;
 	private String documentNumber;
 	private String documentType;
+	private String fullName;
 	private String phoneNumber;
 	private String phoneImei;
 	private String email;
